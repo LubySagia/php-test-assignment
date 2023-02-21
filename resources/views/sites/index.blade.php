@@ -27,6 +27,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Type</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +38,9 @@
                                         <a href="/sites/{{ $site->id }}">{{ $site->name }}</a>
                                     </td>
                                     <td>Vessel</td>
+                                    <td>
+                                        <a class="btn btn-dark btn-xs" href="{{URL::route('sites.edit-credentials', ['id' => $site->id])}}">Add Credentials</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -47,5 +47,7 @@
                 {{ $site->updated_at }}
             </div>
         </div>
-    </div></div>
+        <a class="btn btn-dark btn-xs" href="{{URL::route('airtable.models', ['siteId' => $site->id])}}">View Airtable Models</a>
+    </div>
+</div>
 @endsection
