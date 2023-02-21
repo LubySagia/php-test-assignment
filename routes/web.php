@@ -19,4 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::prefix('sites')->group(function () {
+    Route::get('export', 'SitesController@export')->name('sites.export');
+});
+
 Route::resource('sites', 'SitesController');
