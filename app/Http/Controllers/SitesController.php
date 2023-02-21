@@ -7,6 +7,7 @@ use App\Site;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
@@ -112,5 +113,36 @@ class SitesController extends Controller
     public function export(): BinaryFileResponse
     {
         return Excel::download(new SitesExport($this->sites), 'site_export.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    /**
+     * Display a detail of the resource.
+     * @param $id
+     * @return View
+     * @throws AuthorizationException
+     */
+    public function editSiteCredentials($id): View
+    {
+        $site = Site::findOrFail($id);
+        $this->authorize('view', $site);
+        return view('sites.EditCredentials', compact('site'));
+    }
+
+    /**
+     * Display a detail of the resource.
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function storeSiteCredentials(Request $request): RedirectResponse
+    {
+        $site = Site::findOrFail($request->siteId);
+        $this->authorize('view', $site);
+
+        $site->base_id = $request->baseId;
+        $site->access_key = $request->accessKey;
+
+        $site->save();
+
+        return redirect()->route('sites.index');
     }
 }
